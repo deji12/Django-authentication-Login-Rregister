@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="parent">
+        <div class="form">
+            <h1>Rregister Page</h1>
+            
+            <form action="" method='POST'>
+                {% csrf_token %}
+                <label for="fname">First Name:</label>
+                <input type="text" placeholder="Enter your first name" name='fname'><br>
+
+                <label for="fname">Last Name:</label>
+                <input type="text" placeholder="Enter your last name" name='sname'><br>
+
+                <label for="fname">Username:</label>
+                <input type="text" placeholder="Create a username" name='uname'><br>
+
+                <label for="fname">Email:</label>
+                <input type="email" placeholder="Enter your email" name='email'><br>
+
+                <label for="fname">Enter Paaword:</label>
+                <input type="password" placeholder="Create a password" name='pass'><br>
+
+                <button type="submit">Submit</button>
+                <p>Already have an account? <a href="{% url 'login-page' %}">Login</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
