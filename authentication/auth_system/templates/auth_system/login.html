@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,14 +9,15 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
     <div class="parent">
         <div class="form">
             <h1>Login Page</h1>
-            
+
             <form action="" method='POST'>
                 {% csrf_token %}
-                <label for="fname">UuserName:</label>
+                <label for="fname">UserName:</label>
                 <input type="text" placeholder="Enter your username" name='uname'><br>
 
                 <label for="fname">Password:</label>
@@ -27,4 +29,5 @@
         </div>
     </div>
 </body>
+
 </html>
