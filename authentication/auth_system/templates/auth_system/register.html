@@ -7,13 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Registration</title>
-    {% load static %}
+
     <!-- Link to Bootstrap CSS (either download and host locally or use CDN) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
 
 <body>
+    <nav class="navbar sticky-top bg-body-tertiary">
+        <div class="container-fluid d-flex align-items-center">
+            <a class="navbar-brand" href="/">Airline Simulator</a>
+            <button class="btn btn-primary" onclick="location.href='{% url 'login-page' %}'">Login</button>
+        </div>
+    </nav>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">

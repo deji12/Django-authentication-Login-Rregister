@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import CustomerProfile, StaffProfile
+from django.contrib import messages
 
 
 @login_required
@@ -107,26 +108,15 @@ def Login(request):
                     "Error, user does not have a valid profile or group"
                 )
         else:
-            return HttpResponse("Error, user does not exist")
+            messages.error(request, "Invalid login credentials. Please try again.")
 
     return render(request, "auth_system/login.html", {})
-
-
-# def Login(request):
-#     if request.method == "POST":
-#         name = request.POST.get("uname")
-#         password = request.POST.get("pass")
-
-#         user = authenticate(request, username=name, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect("home-page")
-#         else:
-#             return HttpResponse("Error, user does not exist")
-
-#     return render(request, "auth_system/login.html", {})
 
 
 def logoutuser(request):
     logout(request)
     return redirect("login-page")
+
+
+def Home(request):
+    return render(request, "index.html", {})
