@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -12,7 +13,7 @@ def Customer_HomePage(request):
 
 @login_required
 def Staff_HomePage(request):
-    return render(request, "staff/index.html", {})
+    return render(request, "staff/home.html", {})
 
 
 def Customer_Register(request):
@@ -63,6 +64,27 @@ def Customer_Register(request):
 
 
 def Staff_Register(request):
+    if request.method == "POST":
+        # Extract user information from the form
+        username = request.POST.get("uname")
+        password = request.POST.get("pass")
+        date_of_birth = request.POST.get("date_of_birth")
+
+        # Create a new user
+        new_user = User.objects.create_user(username=username, password=password)
+
+        # Add the user to the 'Staff' group
+        staff_group = Group.objects.get(name="Staff")
+        staff_group.user_set.add(new_user)
+
+        # Create a new staff profile associated with the user
+        StaffProfile.objects.create(
+            user=new_user,
+            date_of_birth=date_of_birth,
+        )
+
+        return redirect("login-page")
+
     return render(request, "auth_system/staff_register.html", {})
 
 
@@ -70,20 +92,39 @@ def Login(request):
     if request.method == "POST":
         name = request.POST.get("uname")
         password = request.POST.get("pass")
+        user_type = request.POST.get("user_type")
 
         user = authenticate(request, username=name, password=password)
+
         if user is not None:
             login(request, user)
-            if hasattr(user, "customerprofile"):
+            if user_type == "customer" and user.groups.filter(name="Customer").exists():
                 return redirect("customer-homepage")
-            elif hasattr(user, "staffprofile"):
+            elif user_type == "staff" and user.groups.filter(name="Staff").exists():
                 return redirect("staff-homepage")
             else:
-                return HttpResponse("Error, user does not have a valid profile")
+                return HttpResponse(
+                    "Error, user does not have a valid profile or group"
+                )
         else:
             return HttpResponse("Error, user does not exist")
 
     return render(request, "auth_system/login.html", {})
+
+
+# def Login(request):
+#     if request.method == "POST":
+#         name = request.POST.get("uname")
+#         password = request.POST.get("pass")
+
+#         user = authenticate(request, username=name, password=password)
+#         if user is not None:
+#             login(request, user)
+#             return redirect("home-page")
+#         else:
+#             return HttpResponse("Error, user does not exist")
+
+#     return render(request, "auth_system/login.html", {})
 
 
 def logoutuser(request):

@@ -1,14 +1,62 @@
+<!-- templates/staff_register.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Staff Registration</title>
+    {% load static %}
+    <!-- Link to Bootstrap CSS (either download and host locally or use CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
-    <h1>Staff</h1>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Staff Registration</h1>
+
+                        <form action="{% url 'staff-register' %}" method='POST'>
+                            {% csrf_token %}
+
+                            <!-- Include User fields -->
+                            <div class="form-group">
+                                <label for="uname">Username:</label>
+                                <input type="text" class="form-control" placeholder="Enter your username" name='uname'
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pass">Password:</label>
+                                <input type="password" class="form-control" placeholder="Enter your password"
+                                    name='pass' required>
+                            </div>
+
+                            <!-- Include StaffProfile fields -->
+                            <div class="form-group">
+                                <label for="date_of_birth">Date of Birth:</label>
+                                <input type="date" class="form-control" name="date_of_birth" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <p class="text-center mt-3">Already have an account? <a
+                                    href="{% url 'login-page' %}">Login</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to Bootstrap JS (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

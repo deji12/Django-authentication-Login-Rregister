@@ -1,37 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-
-<body>
-    <div class="parent">
-        <div class="form">
-            <h1>Login Page</h1>
-
-            <form action="" method='POST'>
-                {% csrf_token %}
-                <label for="fname">Email:</label>
-                <input type="text" placeholder="Enter your Email" name='uname'><br>
-
-                <label for="fname">Password:</label>
-                <input type="password" placeholder="Enter your password" name='pass'><br>
-
-                <button type="submit">Submit</button>
-                <p>dont have an account? <a href="{% url 'customer-register' %}">Register</a></p>
-            </form>
-        </div>
-    </div>
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,6 +23,7 @@
                         <h2 class="card-title">Customer Login</h2>
                         <form action="{% url 'login-page' %}" method='POST'>
                             {% csrf_token %}
+                            <input type="hidden" name="user_type" value="customer">
                             <label for="customer-email">Email:</label>
                             <input type="text" class="form-control" placeholder="Enter your Email" name='uname'><br>
 
@@ -78,7 +45,8 @@
                         <h2 class="card-title">Staff Login</h2>
                         <form action="{% url 'login-page' %}" method='POST'>
                             {% csrf_token %}
-                            <label for="staff-email">Email:</label>
+                            <input type="hidden" name="user_type" value="staff">
+                            <label for="staff-username">Username:</label>
                             <input type="text" class="form-control" placeholder="Enter your Email" name='uname'><br>
 
                             <label for="staff-password">Password:</label>
@@ -86,7 +54,7 @@
                                 name='pass'><br>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <p>Don't have an account? <a href="{% url 'customer-register' %}">Register</a></p>
+                            <p>Don't have an account? <a href="{% url 'staff-register' %}">Register</a></p>
                         </form>
                     </div>
                 </div>
