@@ -6,8 +6,13 @@ from .models import CustomerProfile, StaffProfile
 
 
 @login_required
-def HomePage(request):
-    return render(request, "auth_system/index.html", {})
+def Customer_HomePage(request):
+    return render(request, "customer/home.html", {})
+
+
+@login_required
+def Staff_HomePage(request):
+    return render(request, "staff/index.html", {})
 
 
 def Customer_Register(request):
@@ -57,19 +62,8 @@ def Customer_Register(request):
     return render(request, "auth_system/register.html", {})
 
 
-# def Login(request):
-#     if request.method == "POST":
-#         name = request.POST.get("uname")
-#         password = request.POST.get("pass")
-
-#         user = authenticate(request, username=name, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect("home-page")
-#         else:
-#             return HttpResponse("Error, user does not exist")
-
-#     return render(request, "auth_system/login.html", {})
+def Staff_Register(request):
+    return render(request, "auth_system/staff_register.html", {})
 
 
 def Login(request):
