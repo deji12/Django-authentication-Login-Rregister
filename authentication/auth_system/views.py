@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from .models import CustomerProfile, StaffProfile, Airplane, Flight
+from .models import CustomerProfile, StaffProfile, Airplane, Flight, Airline
 from django.contrib import messages
 from .forms import AirplaneForm, FlightForm
 
@@ -117,6 +117,9 @@ def Staff_Register(request):
         username = request.POST.get("uname")
         password = request.POST.get("pass")
         date_of_birth = request.POST.get("date_of_birth")
+        airline_name = request.POST.get(
+            "airline"
+        )  # Adjust this based on your form structure
 
         # Create a new user
         new_user = User.objects.create_user(username=username, password=password)
@@ -125,15 +128,21 @@ def Staff_Register(request):
         staff_group = Group.objects.get(name="Staff")
         staff_group.user_set.add(new_user)
 
-        # Create a new staff profile associated with the user
-        StaffProfile.objects.create(
+        # Create a new staff profile associated with the user and the specified airline
+        airline = Airline.objects.get(name=airline_name)  # Retrieve Airline by name
+        staff_profile = StaffProfile.objects.create(
             user=new_user,
             date_of_birth=date_of_birth,
+            airline=airline,
         )
 
         return redirect("login-page")
 
-    return render(request, "auth_system/staff_register.html", {})
+    # Render the registration form
+    airlines = (
+        Airline.objects.all()
+    )  # You may need to adjust this based on your data model
+    return render(request, "auth_system/staff_register.html", {"airlines": airlines})
 
 
 def Login(request):
