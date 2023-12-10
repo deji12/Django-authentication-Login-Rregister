@@ -51,7 +51,11 @@
 
                             <div class="form-group">
                                 <label for="airline">Airline:</label>
-                                <input type="text" class="form-control" name="airline" required>
+                                <select class="form-control" name="airline" required>
+                                    {% for airline in airlines %}
+                                    <option value="{{ airline.name }}">{{ airline.name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
