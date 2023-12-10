@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from .models import CustomerProfile, StaffProfile
+from .models import CustomerProfile, StaffProfile, Airplane, Flight
 from django.contrib import messages
+from .forms import AirplaneForm, FlightForm
 
 
 @login_required
@@ -14,7 +15,40 @@ def Customer_HomePage(request):
 
 @login_required
 def Staff_HomePage(request):
-    return render(request, "staff/home.html", {})
+    airplanes = Airplane.objects.all()
+    flights = Flight.objects.all()
+    airplane_form = AirplaneForm()
+    flight_form = FlightForm()
+
+    if request.method == "POST":
+        if "create_airplane" in request.POST:
+            airplane_form = AirplaneForm(request.POST)
+            if airplane_form.is_valid():
+                airplane_form.save()
+                return redirect("staff-homepage")
+        elif "create_flight" in request.POST:
+            flight_form = FlightForm(request.POST)
+            if flight_form.is_valid():
+                flight_form.save()
+                return redirect("staff-homepage")
+        elif "update_flight_status" in request.POST:
+            flight_id = request.POST.get("flight_id")
+            new_status = request.POST.get("new_status")
+            flight = Flight.objects.get(pk=flight_id)
+            flight.status = new_status
+            flight.save()
+            return redirect("staff-homepage")
+
+    return render(
+        request,
+        "staff/home.html",
+        {
+            "airplanes": airplanes,
+            "flights": flights,
+            "airplane_form": airplane_form,
+            "flight_form": flight_form,
+        },
+    )
 
 
 def Customer_Register(request):

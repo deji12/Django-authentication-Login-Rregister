@@ -14,9 +14,15 @@ def create_groups():
 class PhoneNumber(models.Model):
     number = models.CharField(max_length=15)
 
+    def __str__(self):
+        return self.number
+
 
 class Email(models.Model):
     email = models.EmailField()
+
+    def __str__(self):
+        return self.email
 
 
 class Card(models.Model):
@@ -29,6 +35,9 @@ class Card(models.Model):
     card_number = models.CharField(max_length=16)
     name_on_card = models.CharField(max_length=128)
     expiration_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.card_type} - {self.card_number}"
 
 
 class Airport(models.Model):
@@ -45,9 +54,15 @@ class Airport(models.Model):
     ]
     airport_type = models.CharField(max_length=15, choices=AIRPORT_TYPES)
 
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
 
 class Airline(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Airplane(models.Model):
@@ -59,11 +74,17 @@ class Airplane(models.Model):
     manufacturing_date = models.DateField()
     age = models.PositiveIntegerField()
 
+    def __str__(self):
+        return f"{self.airline} - {self.identification_number}"
+
 
 class MaintenanceProcedure(models.Model):
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
+
+    def __str__(self):
+        return f"{self.airplane} Maintenance"
 
 
 class Flight(models.Model):
@@ -86,6 +107,9 @@ class Flight(models.Model):
     airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="on_time")
 
+    def __str__(self):
+        return f"{self.airline} - {self.flight_number}"
+
 
 class Ticket(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -96,6 +120,9 @@ class Ticket(models.Model):
     passenger_date_of_birth = models.DateField()
     credit_card = models.ForeignKey(Card, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.flight} Ticket for {self.passenger_first_name} {self.passenger_last_name}"
+
 
 class Rating(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -103,12 +130,18 @@ class Rating(models.Model):
     rating_number = models.IntegerField()
     comment = models.TextField()
 
+    def __str__(self):
+        return f"{self.flight} Rating by {self.customer}"
+
 
 class StaffProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
     emails = models.ManyToManyField(Email)
     phone_numbers = models.ManyToManyField(PhoneNumber)
+
+    def __str__(self):
+        return f"Staff Profile - {self.user}"
 
 
 class CustomerProfile(models.Model):
@@ -124,3 +157,6 @@ class CustomerProfile(models.Model):
     passport_country = models.CharField(max_length=128)
     date_of_birth = models.DateField()
     cards = models.ManyToManyField(Card)
+
+    def __str__(self):
+        return f"Customer Profile - {self.user}"

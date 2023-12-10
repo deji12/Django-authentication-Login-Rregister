@@ -4,19 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Airline Simulator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Include Bootstrap Datepicker CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
 
 <body>
     <nav class="navbar sticky-top bg-body-tertiary">
         <div class="container-fluid d-flex align-items-center">
             <a class="navbar-brand" href="/">Airline Simulator</a>
-            <button class="btn btn-primary" onclick="location.href='{% url 'logout' %}'">Login</button>
+            <button class="btn btn-primary" onclick="location.href='{% url 'logout' %}'">Logout</button>
         </div>
     </nav>
-    <h1>Staff</h1>
+    <div style="position: absolute;
+        width: 370px;
+        height: 200px;
+        z-index: 15;
+        top: 20%;
+        left: 50%;
+        margin: -100px 0 0 -185px;">
 
+        <ul class=" list-group">
+            <li class="list-group-item">
+
+                <h3>Create New Airplane</h3>
+                <form method="post" action="{% url 'staff-homepage' %}">
+                    {% csrf_token %}
+                    {{ airplane_form.as_p }}
+                    <button type="submit" name="create_airplane" class="btn btn-primary">Create Airplane</button>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <h3>Create New Flight</h3>
+                <form method="post" action="{% url 'staff-homepage' %}">
+                    {% csrf_token %}
+                    {{ flight_form.as_p }}
+                    <!-- Include Bootstrap Datepicker for date fields -->
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                    <script
+                        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $('.datepicker').datepicker({
+                                format: 'yyyy-mm-dd',  // Specify your desired date format
+                                autoclose: true,
+                            });
+                        });
+                    </script>
+                    <button type="submit" name="create_flight" class="btn btn-primary">Create Flight</button>
+                </form>
+            </li>
+            <li class="list-group-item">
+                <h3>Update Flight Status</h3>
+                <form method="post" action="{% url 'staff-homepage' %}">
+                    {% csrf_token %}
+                    <select name="flight_id" class="form-control">
+                        {% for flight in flights %}
+                        <option value="{{ flight.id }}">{{ flight.airline }} - {{ flight.flight_number }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="new_status" class="form-control">
+                        <option value="on_time">On Time</option>
+                        <option value="delayed">Delayed</option>
+                    </select>
+                    <button type="submit" name="update_flight_status" class="btn btn-primary">Update Flight
+                        Status</button>
+                </form>
+            </li>
+    </div>
 </body>
 
 </html>
