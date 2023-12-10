@@ -139,6 +139,7 @@ class StaffProfile(models.Model):
     date_of_birth = models.DateField()
     emails = models.ManyToManyField(Email)
     phone_numbers = models.ManyToManyField(PhoneNumber)
+    airline = models.ForeignKey(Airline, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Staff Profile - {self.user}"
