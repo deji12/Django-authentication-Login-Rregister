@@ -1,39 +1,125 @@
+<!-- templates/customer_registration.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Customer Registration</title>
+
+    <!-- Link to Bootstrap CSS (either download and host locally or use CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
 </head>
+
 <body>
-    <div class="parent">
-        <div class="form">
-            <h1>Rregister Page</h1>
-            
-            <form action="" method='POST'>
-                {% csrf_token %}
-                <label for="fname">First Name:</label>
-                <input type="text" placeholder="Enter your first name" name='fname'><br>
+    <nav class="navbar sticky-top bg-body-tertiary">
+        <div class="container-fluid d-flex align-items-center">
+            <a class="navbar-brand" href="/">Airline Simulator</a>
+            <button class="btn btn-primary" onclick="location.href='{% url 'login-page' %}'">Login</button>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Customer Registration</h1>
 
-                <label for="fname">Last Name:</label>
-                <input type="text" placeholder="Enter your last name" name='sname'><br>
+                        <form action="{% url 'customer-register' %}" method='POST'>
+                            {% csrf_token %}
 
-                <label for="fname">Username:</label>
-                <input type="text" placeholder="Create a username" name='uname'><br>
+                            <!-- Include User fields -->
+                            <div class="form-group">
+                                <label for="uname">Email:</label>
+                                <input type="text" class="form-control" placeholder="Enter your email" name='uname'
+                                    required>
+                            </div>
 
-                <label for="fname">Email:</label>
-                <input type="email" placeholder="Enter your email" name='email'><br>
+                            <div class="form-group">
+                                <label for="fname">First Name:</label>
+                                <input type="text" class="form-control" placeholder="Enter your first name" name='fname'
+                                    required>
+                            </div>
 
-                <label for="fname">Enter Paaword:</label>
-                <input type="password" placeholder="Create a password" name='pass'><br>
+                            <div class="form-group">
+                                <label for="lname">Last Name:</label>
+                                <input type="text" class="form-control" placeholder="Enter your last name" name='lname'
+                                    required>
+                            </div>
 
-                <button type="submit">Submit</button>
-                <p>Already have an account? <a href="{% url 'login-page' %}">Login</a></p>
-            </form>
+                            <div class="form-group">
+                                <label for="pass">Password:</label>
+                                <input type="password" class="form-control" placeholder="Enter your password"
+                                    name='pass' required>
+                            </div>
+
+                            <!-- Include CustomerProfile fields -->
+                            <div class="form-group">
+                                <label for="building_number">Building Number:</label>
+                                <input type="number" class="form-control" name="building_number" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="street">Street:</label>
+                                <input type="text" class="form-control" name="street" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <input type="text" class="form-control" name="city" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="apartment_number">Apartment Number:</label>
+                                <input type="number" class="form-control" name="apartment_number" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="state">State:</label>
+                                <input type="text" class="form-control" name="state" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="zipcode">Zip Code:</label>
+                                <input type="number" class="form-control" name="zipcode" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passport_number">Passport Number:</label>
+                                <input type="text" class="form-control" name="passport_number" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passport_expiration">Passport Expiration:</label>
+                                <input type="date" class="form-control" name="passport_expiration" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passport_country">Passport Country:</label>
+                                <input type="text" class="form-control" name="passport_country" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date_of_birth">Date of Birth:</label>
+                                <input type="date" class="form-control" name="date_of_birth" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <p class="text-center mt-3">Already have an account? <a
+                                    href="{% url 'login-page' %}">Login</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Link to Bootstrap JS (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>
