@@ -91,6 +91,8 @@ def Customer_Register(request):
         new_user.last_name = lname
         new_user.save()
 
+        customer_group, created = Group.objects.get_or_create(name="Customer")
+        customer_group.user_set.add(new_user)
         # Create a new customer profile associated with the user
         CustomerProfile.objects.create(
             user=new_user,
@@ -155,6 +157,7 @@ def Login(request):
 
         if user is not None:
             login(request, user)
+            print(user.groups.all())
             if user_type == "customer" and user.groups.filter(name="Customer").exists():
                 return redirect("customer-homepage")
             elif user_type == "staff" and user.groups.filter(name="Staff").exists():
