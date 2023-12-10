@@ -12,7 +12,6 @@ class FlightForm(forms.ModelForm):
     class Meta:
         model = Flight
         fields = [
-            "airline",
             "flight_number",
             "departure_airport",
             "departure_datetime",

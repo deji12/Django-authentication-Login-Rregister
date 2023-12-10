@@ -15,10 +15,12 @@ def Customer_HomePage(request):
 
 @login_required
 def Staff_HomePage(request):
-    airplanes = Airplane.objects.all()
+    user_airline = (
+        request.user.staffprofile.airline
+    )  # Assuming your StaffProfile model has a 'airline' field
+
+    airplanes = Airplane.objects.filter(airline=user_airline)
     flights = Flight.objects.all()
-    airplane_form = AirplaneForm()
-    flight_form = FlightForm()
 
     if request.method == "POST":
         if "create_airplane" in request.POST:
@@ -28,8 +30,13 @@ def Staff_HomePage(request):
                 return redirect("staff-homepage")
         elif "create_flight" in request.POST:
             flight_form = FlightForm(request.POST)
+            flight_form.fields[
+                "airplane"
+            ].queryset = airplanes  # Limit choices to airplanes of the user's airline
             if flight_form.is_valid():
-                flight_form.save()
+                flight = flight_form.save(commit=False)
+                flight.airline = user_airline
+                flight.save()
                 return redirect("staff-homepage")
         elif "update_flight_status" in request.POST:
             flight_id = request.POST.get("flight_id")
@@ -38,6 +45,12 @@ def Staff_HomePage(request):
             flight.status = new_status
             flight.save()
             return redirect("staff-homepage")
+    else:
+        airplane_form = AirplaneForm()
+        flight_form = FlightForm()
+        flight_form.fields[
+            "airplane"
+        ].queryset = airplanes  # Limit choices to airplanes of the user's airline
 
     return render(
         request,
